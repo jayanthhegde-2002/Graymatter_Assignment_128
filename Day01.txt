@@ -1,0 +1,49 @@
+create schema gme
+create table gme.employee(emp_id int,emp_name varchar(40))
+select * from gme.employee
+alter table gme.employee add  col_id int
+alter table gme.employee add constraint PK PRIMARY KEY(emp_id)
+insert into gme.employee values(1,'ram',10)
+--DDL--
+insert into gme.employee values(3,'ram',10)
+delete from gme.employee where emp_id is null
+
+alter table gme.employee add constraint cc check (emp_id<10)
+insert into gme.employee values(11,'ram',11)
+--stored procedure--
+create procedure gme_sp
+as
+select *from gme.employee
+
+go
+exec gme_sp
+create table #student( student_id int not null,student_name varchar(20))
+select * from #student
+select * from gme.employee
+insert into #student values(2,'ram')
+insert into #student values(3,'sham')
+insert into #student values(4,'bheem')
+--error--
+insert into #student 
+select * from gme.employee
+
+--cte common tale expression
+
+--Joins--
+select p.FirstName from Person.Person p 
+inner join Person.EmailAddress b 
+on p.BusinessEntityID = b.BusinessEntityID
+
+select BusinessEntityID from Person.Person  where BusinessEntityID = 1180 
+select BusinessEntityID from Person.BusinessEntityContact
+select * from Person.PhoneNumberType
+
+insert into Person.PhoneNumberType (Name) values('work')
+select * from Person.Person
+--view--
+create view Personview as
+select * from Person.Person where
+MiddleName='B'
+ select * from Personview
+ --cte--
+
