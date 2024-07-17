@@ -1,0 +1,241 @@
+CREATE TABLE dbo.InsertLog(LogId int IDENTITY(1,1) PRIMARY KEY,
+InsertedDate DATETIME,
+InsertedBy NVARCHAR(100),
+UpdatedDate DATETIME,UpdatedBy nvarchar(100),
+DeletedDate DATETIME,DeletedBy nvarchar(100))
+select * from dbo.InsertLog
+
+GO
+-- create an after insert trigger--
+ CREATE TRIGGER trg_AfterInsert
+ on Sales.Customer
+ AFTER INSERT
+ AS
+ BEGIN
+ --INSERT A LOG ENTRY WHEN NEW CUSTOMER ADDED--
+ INSERT INTO dbo.InsertLog(InsertedDate,
+InsertedBy) VALUES(GETDATE(),SUSER_SNAME());
+END;
+
+GO
+-- create an after Update trigger--
+ CREATE TRIGGER trg_AfterUpdate2
+ on Sales.Customer
+ AFTER UPDATE
+ AS
+ BEGIN
+ --INSERT A LOG ENTRY WHEN NEW CUSTOMER ADDED--
+ INSERT INTO dbo.InsertLog(UpdatedDate,
+UpdatedBy) VALUES(GETDATE(),SUSER_SNAME());
+END;
+
+GO
+-- create an after Delete trigger--
+ CREATE TRIGGER trg_AfterDelete2
+ on Sales.Customer
+ AFTER DELETE
+ AS
+ BEGIN
+ --INSERT A LOG ENTRY WHEN NEW CUSTOMER ADDED--
+ INSERT INTO dbo.InsertLog(DeletedDate,
+DeletedBy) VALUES(GETDATE(),SUSER_SNAME());
+END;
+select * from Sales.Customer
+insert into Sales.Customer (PersonId) values(106)
+update  Sales.Customer  set PersonId=105 where PersonId=100
+delete from sales.Customer where PersonID=100
+
+create table ReplicateTable(
+PersonId int)
+select * from ReplicateTable
+
+ 
+
+go
+create trigger trg_afterInserting5
+on Sales.Customer
+after insert
+as
+begin
+	insert into ReplicateTable (PersonId)
+	select PersonId from inserted
+end;
+go
+
+create trigger trg_afterDeleted5
+on Sales.Customer
+after delete
+as
+begin
+	insert into ReplicateTable (PersonId)
+	select PersonId from deleted
+end;
+
+insert into Sales.Customer (PersonID) values (15)
+delete from Sales.Customer where PersonID=1
+
+GO
+-- create an instead of insert trigger--
+ CREATE TRIGGER trg_AfterInserting
+ on Sales.Customer
+ INSTEAD OF INSERT
+ AS
+ BEGIN
+ --inserting the value into Replicated table using instead of 
+
+ INSERT INTO ReplicateTable(PersonId) 
+SELECT i.PersonId 
+from inserted i
+END;
+insert into Sales.Customer (PersonId) values(107)
+select * from ReplicateTable
+select * from Sales.Customer where PersonID=4157
+
+
+
+
+--FUNCTIONS--
+
+SELECT * from production.product
+
+create table RetailMart(Name varchar(50), Price int,Quantity int)
+select * from RetailMart
+insert into RetailMart values('banana',40,10)
+insert into RetailMart values('Apple',200,5)
+insert into RetailMart values('Mango',100,30)
+--SCALAR FUNCTION--
+CREATE FUNCTION CalculateTotal(@Price int,@Quantity int)
+returns int
+AS
+BEGIN
+DECLARE @Total int
+ SET @Total=@Price*@Quantity
+ return @Total
+ END
+ --use scalar function--
+ select Name,Price,Quantity, dbo.CalculateTotal(Price,Quantity) as Total
+ from RetailMart
+
+ --TABLE FUNCTION--
+ CREATE FUNCTION GetPriceByProduct(@Name varchar(50))
+returns Table
+as
+return
+(select Name,Price,Quantity from RetailMart
+  where Name=@Name)
+  --using table function--
+  select* from dbo.GetPriceByProduct('banana')
+
+
+
+
+
+  --ACID PROPERTY--
+  --START TRANSACTION
+  BEGIN TRANSACTION;
+  --variables for warehouse ids and quantity to transfer
+  DECLARE @FromWarehouseId int=1;
+  DECLARE @ToWarehouseId int=2;
+  DECLARE @ProductId int=1;
+  DECLARE @QuntityToTransfer int=10;
+
+--Perform inventory Transfer
+Update Production.ProductInventory
+set Quantity=Quantity-@QuntityToTransfer
+where ProductId=@ProductId and LocationId=@FromWarehouseId
+Insert into Production.ProductInventory(ProductID,LocationID,Shelf,Bin,Quantity)
+values(@ProductId,@ToWarehouseId,'A','1',@QuntityToTransfer)
+--Commit the transaction if everything is successful
+COMMIT TRANSACTION;
+print 'inventory transfer completed successfully'
+
+
+STORED PROCEDURE
+select * from Sales.Customer
+select * from sales.SalesOrderHeader
+CREATE PROCEDURE Stp2  @customer int, @SalesOrderID int, @update int
+AS
+BEGIN 
+BEGIN TRANSACTION
+
+declare @total int;
+--declare @customer int=19897;
+--CTE
+
+with gme_sales as(
+
+	select sum(h.TotalDue) as cash,c.CustomerID from Sales.Customer c 
+	inner join Sales.SalesOrderHeader h  on c.CustomerID = h.CustomerID
+	group by c.CustomerID
+	having c.CustomerID=@customer
+	
+)
+
+select @total=cash from gme_sales
+print @total
+
+--temp
+create table #TempTable1(SalesOrderID int ,OrderDate datetime,TotalDue int)
+
+--Declare @SalesOrderID int=43659
+ insert into #TempTable1
+ select SalesOrderID,OrderDate,TotalDue from sales.SalesOrderHeader
+where SalesOrderID=@SalesOrderID
+select * from #TempTable1
+
+
+--Declare @SalesOrderID int=43659
+--declare @update int=50 
+update sales.SalesOrderHeader set TaxAmt=@update where SalesOrderID= @SalesOrderID
+select * from sales.SalesOrderHeader where SalesOrderID=43659
+commit transaction
+END
+GO
+--Trigger
+create table SalesOrderChangeLog1(
+ChangeID int identity(1,1) primary key,
+SalesOrderID int,
+OldTotalTax money,
+NewTotalTax money,
+ChangeDate datetime)
+select * from SalesOrderChangeLog1
+ 
+
+
+
+
+
+ /*create trigger trg_afterInsertt on  Sales.SalesOrderHeader
+	AFTER UPDATE
+		AS
+		BEGIN
+		INSERT INTO SalesOrderChangeLog(SalesOrderID,OldTotalDue,NewTotalDue,ChangeDate)
+		SELECT i.SalesOrderID,d.TaxAmt,i.TaxAmt,GETDATE() FROM inserted i INNER JOIN deleted d on i.SalesOrderID=d.SalesOrderID;
+	END;*/
+
+	create trigger after_updated
+on Sales.SalesOrderHeader
+after update
+as
+begin
+	declare @Salesorderid int,@oldtaxmat money,@newtaxamt money;
+	select @Salesorderid=i.SalesOrderID,@oldtaxmat=i.taxamt,@newtaxamt=i.taxamt
+	from inserted i inner join deleted d on i.SalesOrderID=d.SalesOrderID;
+	insert into dbo.SalesOrderChangeLog1(SalesOrderID,OldTotalTax,NewTotalTax,ChangeDate)
+	values (@Salesorderid,@oldtaxmat,@newtaxamt,getdate())
+end
+exec Stp2 @customer=19897,@SalesOrderID=43659, @update=50
+
+Assignment
+with sales_ct 
+as(
+select sum(D.OrderQty) as quantity ,D.ProductID from
+sales.SalesOrderHeader H inner join sales.SalesOrderDetail D on H.SalesOrderID=D.SalesOrderID
+where H.OrderDate between '2011-05-31 00:00:00.000' and '2011-07-01 00:00:00.000'
+group by D.ProductID)
+update Production.ProductInventory set Quantity=ct.quantity from Sales_ct ct
+
+  
+
+
+
