@@ -1,0 +1,75 @@
+create table Customers(Cust_ID int ,CustName varchar(50),CustAddress varchar(100),
+newDate datetime,oldDate datetime)
+   insert into Customers values(1,'ram','abc',getdate(),null)
+insert into Customers values(2,'sham','abcd',getdate(),null)
+insert into Customers values(3,'kam','abdd',getdate(),null)
+insert into Customers values(4,'bheem','ade',getdate(),null)
+insert into Customers values(4,'bheem','ade',getdate(),null)
+insert into Customers values(5,'agaggah','ada',getdate(),null,null)
+
+--SCD type1
+select * from Customers
+update Customers  set custName ='ramesh' where Cust_ID=1
+
+--scd type 2
+insert into Customers(Cust_ID,CustName,CustAddress,newDate,oldDate) values(5,'hhhjjhggam','gtt',getdate(),null)
+update Customers set oldDate=getdate() where Cust_ID=5 AND oldDate is null
+
+--scd type 3
+
+--adding new column for tracking changes
+ alter table customers 
+ add PreviousCustName varchar(100)
+ --update data with historical infromation
+ update Customers
+set PreviousCustName=CustName, CustName='jay' where Cust_ID=1
+
+
+--Merging Tables
+create table Custt(CusID int primary key, CusName varchar(100),CusAddress varchar(100))
+create table #Tempt(CusID int primary key, CusName varchar(100),CusAddress varchar(100))
+insert into Custt values(1,'abc','efef')
+insert into Custt values(2,'aby','efgf')
+insert into Custt values(3,'abt','efqs')
+insert into Custt values(4,'abq','efty')
+
+insert into #tempt values(1,'abc','efef')
+insert into #tempt values(2,'aby','efgf')
+insert into #tempt values(3,'abd','efef')
+insert into #tempt values(5,'lly','sfs')
+
+merge custt as target 
+using #tempt as s
+on(target.CusID=s.CusID )
+when matched and(target.CusName<>s.CusName or target.CusAddress<>s.CusAddress)
+then update set target.CusName='hello'
+when not matched by target
+then insert(CusId,CusName,CusAddress) values(s.CusID,s.CusName,s.CusAddress);
+select * from custt
+
+
+--casting
+select cast(OrderDate as date) as dates from SAles.SalesOrderHeader
+select * from person.Emailaddress
+--regx
+SELECT REGEXP_REPLACE(EmailAddress, '^.+@([^@]+\.works\.com)$', '\1') AS domain_name
+FROM person.Emailaddress;
+
+ select   SUBSTRING(EmailAddress, CHARINDEX('@', EmailAddress) + 1, LEN(EmailAddress)) AS DomainName
+FROM Person.EmailAddress
+
+CREATE FUNCTION GetDomainName (@EmailAddress VARCHAR(255))
+RETURNS VARCHAR(255)
+AS
+BEGIN
+    DECLARE @DomainName VARCHAR(255);
+    
+    SET @DomainName = SUBSTRING(@EmailAddress, CHARINDEX('@', @EmailAddress) + 1, LEN(@EmailAddress));
+    
+    RETURN @DomainName;
+END;
+
+--calling
+-- Example of using the function
+SELECT dbo.GetDomainName('john.doe@example.com') AS DomainName;
+
