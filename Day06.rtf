@@ -1,0 +1,268 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Consolas;}{\f1\fnil Consolas;}{\f2\fnil\fcharset0 Calibri;}}
+{\colortbl ;\red0\green0\blue0;\red0\green0\blue255;\red128\green128\blue128;\red0\green128\blue0;\red255\green0\blue255;\red255\green0\blue0;}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\b\f0\fs19 1 \f1\lang9 Introduction to SQL\par
+1. Write a query to retrieve the first 10 records from the Person.Person table.\par
+\cf1\b0\par
+\cf2 Select\cf1   \cf2 top\cf1  10 \cf3 *\cf1  \cf2 from\cf1  Person\cf3 .\cf1 person\par
+\b\f0\lang1033 Description: \b0 This Query selects the first 10 records using the TOP function\f1\lang9\par
+\cf4\par
+\cf0\b 2. Write a query to retrieve all columns from the Production.Product table where the Color is \par
+'Red'.\par
+\cf1\b0\par
+\cf2 select\cf1  \cf3 *\cf1  \cf2 from\cf1  Production\cf3 .\cf5 Product\cf1  \cf2 where\cf1  color\cf3 =\cf6 'Red'\par
+\cf0\b\f0\lang1033 Description: \b0 The query Retrieve all the \f1\lang9 columns from the Production.Product table where the Color is \par
+'Red'.\par
+\cf1\f0\lang1033 ----------------------------------------------------------------------------------\f1\lang9\par
+\cf0\b\f0\lang1033 2 \f1\lang9 Advanced SQL Queries\par
+1. Create a query to list the ProductID and the average ListPrice from the Production.Product table, grouped by ProductID.\par
+\cf2\b0 select\cf1  ProductId\cf3 ,\cf5 AVG\cf3 (\cf1 ListPrice\cf3 )\cf1  \cf2 as\cf1  averageListPrice \cf2 from\cf1  Production\cf3 .\cf5 Product\cf1\par
+\cf2 group\cf1  \cf2 by\cf3 (\cf1 ProductID\cf3 )\par
+\f0\lang1033 Desscription:\cf1\f1\lang9\par
+\cf0\b 2. Create a query to list the DepartmentID and the number of employees in each department \par
+from the HumanResources.EmployeeDepartmentHistory table, grouped by DepartmentID.\par
+\cf1\b0\par
+\cf2 select\cf1  \cf3 *\cf1  \cf2 from\cf1  HumanResources\cf3 .\cf1 EmployeeDepartmentHistory\par
+\cf2 select\cf1  DepartmentID\cf3 ,\cf5 count\cf3 (\cf1 DepartmentID\cf3 )\cf1  \cf2 as\cf1  NumberOfEmployee \cf2 from\cf1  HumanResources\cf3 .\cf1 EmployeeDepartmentHistory \par
+\cf2 group\cf1  \cf2 by\cf1  DepartmentID\par
+\f0\lang1033 ----------------------------------------------------------------------------------\f1\lang9\par
+\cf0\b\f0\lang1033 3 \f1\lang9 SQL for Data Engineering\par
+1. Write a query to join the Sales.SalesOrderHeader and Sales.SalesOrderDetail tables to get a list of sales order numbers and their respective product IDs.\par
+\cf1\b0\par
+\cf2 select\cf1  \cf3 *\cf1  \cf2 from\cf1  Sales\cf3 .\cf1 SalesOrderHeader\par
+\cf2 select\cf1  \cf3 *\cf1  \cf2 from\cf1  Sales\cf3 .\cf1 SalesOrderDetail\par
+\cf2 select\cf1  S\cf3 .\cf1 SalesOrderNumber \cf3 ,\cf1 p\cf3 .\cf1 ProductId \cf2 from\cf1  Sales\cf3 .\cf1 SalesOrderHeader S \cf3 inner\cf1  \cf3 join\cf1  Sales\cf3 .\cf1 SalesOrderDetail p \par
+\cf2 on\cf1  s\cf3 .\cf1 SalesOrderID\cf3 =\cf1 p\cf3 .\cf1 SalesOrderID\par
+\cf0\b 2. Write a query to join the Sales.Customer and Person.Person tables to get a list of customer names and their email addresses.\par
+\cf1\b0\par
+\cf2 select\cf1  \cf3 *\cf1  \cf2 from\cf1  Sales\cf3 .\cf1 Customer\par
+\cf2 select\cf1  \cf3 *\cf1  \cf2 from\cf1  Person\cf3 .\cf1 Person\par
+\cf2 SELECT\cf1\par
+    p\cf3 .\cf1 FirstName\cf3 ,\cf1  p\cf3 .\cf1 LastName\cf3 ,\cf1\par
+    e\cf3 .\cf1 EmailAddress\par
+\cf2 FROM\cf1\par
+    Sales\cf3 .\cf1 Customer c\par
+\cf3 JOIN\cf1\par
+    Person\cf3 .\cf1 Person p \cf2 ON\cf1  c\cf3 .\cf1 PersonID \cf3 =\cf1  p\cf3 .\cf1 BusinessEntityID\par
+\cf3 JOIN\cf1\par
+    Person\cf3 .\cf1 EmailAddress e \cf2 ON\cf1  p\cf3 .\cf1 BusinessEntityID \cf3 =\cf1  e\cf3 .\cf1 BusinessEntityID\cf3 ;\cf1\par
+\par
+\f0\lang1033 --------------------------------------------------------------------------------\f1\lang9\par
+\cf0\b\f0\lang1033 4 \f1\lang9 Writing Queries for Data Manipulation and Analysis\par
+1. Create a query to update the PhoneNumber in the Person.PersonPhone table where \par
+BusinessEntityID is 5.\par
+\cf1\b0\par
+\cf2 select\cf1  \cf3 *\cf1  \cf2 from\cf1  Person\cf3 .\cf1 PersonPhone \par
+\cf5 update\cf1  Person\cf3 .\cf1 PersonPhone \cf2 set\cf1  PhoneNumber\cf3 =\cf6 '185-555-0186'\cf1  \cf2 where\cf1  BusinessEntityID\cf3 =\cf1 5\par
+\cf0\b 2. Write a query to delete records from the Sales.ShoppingCartItem table where the Quantity is \par
+\cf2\b0 select\cf1  \cf3 *\cf1  \cf2 from\cf1  Sales\cf3 .\cf1 ShoppingCartItem\par
+\cf2 delete\cf1  \cf2 from\cf1  Sales\cf3 .\cf1 ShoppingCartItem \cf2 Where\cf1  Quantity\cf3 =\cf1 3\par
+\f0\lang1033 ----------------------------------------------------------------------------------\f1\lang9\par
+\par
+\cf0\b\f0\lang1033  5.\f1\lang9 SQL Optimization Techniques\par
+1. Optimize the following query to improve performance:\par
+Query: SELECT * FROM Sales.SalesOrderHeader WHERE OrderDate = '2022-01-01';\par
+\par
+\cf1\b0\par
+\cf2 select\cf1  \cf3 *\cf1  \cf2 from\cf1  Sales\cf3 .\cf1 SalesOrderHeader\par
+\cf2 SELECT\cf1   OrderDate\cf3 ,\cf1  CustomerID\cf3 ,\cf1  TotalDue  \cf4 -- Specify actual columns instead of *\cf1\par
+\cf2 FROM\cf1  Sales\cf3 .\cf1 SalesOrderHeader\par
+\cf2 WHERE\cf1  OrderDate \cf3 =\cf1  \cf6 '2022-01-01'\cf3 ;\cf1\par
+\par
+\cf0\b 2. Analyze and optimize the following query:\par
+Query: SELECT * FROM Production.Product WHERE ListPrice > 1000;\par
+\cf1\b0\par
+\cf2 SELECT\cf1  ProductID\cf3 ,\cf1  \cf2 Name\cf3 ,\cf1  ListPrice  \cf4 -- Specify actual columns instead of *\cf1\par
+\cf2 FROM\cf1  Production\cf3 .\cf5 Product\cf1\par
+\cf2 WHERE\cf1  ListPrice \cf3 >\cf1  1000\cf3 ;\cf1\par
+\f0\lang1033 ----------------------------------------------------------------------\f1\lang9\par
+\cf0\b 6 Working with Indexes and Views\par
+1. Create an index on the SalesOrderNumber column in the Sales.SalesOrderHeader table.\par
+\cf1\b0\par
+\cf2 create\cf1  \cf2 index\cf1  SalesIndex \cf2 on\cf1  sales\cf3 .\cf1 SalesOrderHeader\cf3 (\cf1 SalesOrderNumber\cf3 )\cf1\par
+\cf0\b 2. Drop an existing index named IX_Product_Name on the Production.Product table\cf1\b0\par
+\par
+\cf2 drop\cf1  \cf2 index\cf1  IX_Product_Name \cf2 on\cf1  Production\cf3 .\cf5 Product\cf1\par
+\f0\lang1033 ------------------------------------------------------------------------------\f1\lang9\par
+\cf0\b 7 Creating and Using Indexes and Views\par
+1. Create a view that shows the ProductID, Name, and ProductNumber from the \par
+Production.Product table\cf4\b0 .\cf1\par
+\par
+\cf2 create\cf1  \cf2 view\cf1  ProductionIndex \par
+\cf2 as\cf1\par
+\cf2 select\cf1  ProductID\cf3 ,\cf1  \cf2 Name\cf3 ,\cf1  ProductNumber \cf2 from\cf1   \par
+Production\cf3 .\cf5 Product\cf1  \par
+\cf2 select\cf1  \cf3 *\cf1  \cf2 from\cf1  ProductionIndex\par
+\par
+\cf0\b 2. Create a view that joins the Sales.SalesOrderHeader and Sales.SalesOrderDetail tables and \par
+includes columns for SalesOrderID, OrderDate, and TotalDue.\b0\par
+\cf1\par
+\cf2 select\cf1  \cf3 *\cf1  \cf2 from\cf1  Sales\cf3 .\cf1 SalesOrderHeader\par
+\cf2 select\cf1  \cf3 *\cf1  \cf2 from\cf1  Sales\cf3 .\cf1 SalesOrderDetail\par
+\cf2 create\cf1  \cf2 view\cf1  salesIndex\par
+\cf2 as\cf1\par
+\cf2 select\cf1  S\cf3 .\cf1 SalesOrderID\cf3 ,\cf1 S\cf3 .\cf1 OrderDate\cf3 ,\cf1 S\cf3 .\cf1 TotalDue \cf2 from\cf1  Sales\cf3 .\cf1 SalesOrderHeader S \par
+\cf3 inner\cf1  \cf3 join\cf1   Sales\cf3 .\cf1 SalesOrderDetail D \cf2 on\cf1  S\cf3 .\cf1 SalesOrderID\cf3 =\cf1 D\cf3 .\cf1 SalesOrderID\par
+\cf2 select\cf1  \cf3 *\cf1  \cf2 from\cf1  salesIndex\par
+\f0\lang1033 --------------------------------------------------------------------------\f1\lang9\par
+\cf0\b 8\f0\lang1033  \f1\lang9 Transactions and Concurrency Control\par
+1. Write a transaction to transfer $500 from account A to account B ensuring ACID properties.\par
+\cf1\b0\par
+\cf2 BEGIN\cf1  \cf2 TRANSACTION\cf3 ;\cf1\par
+\par
+\cf5 UPDATE\cf1  Accounts\par
+\cf2 SET\cf1  Balance \cf3 =\cf1  Balance \cf3 -\cf1  500\par
+\cf2 WHERE\cf1  AccountID \cf3 =\cf1  \cf6 'A'\cf3 ;\cf1\par
+\par
+\cf5 UPDATE\cf1  Accounts\par
+\cf2 SET\cf1  Balance \cf3 =\cf1  Balance \cf3 +\cf1  500\par
+\cf2 WHERE\cf1  AccountID \cf3 =\cf1  \cf6 'B'\cf3 ;\cf1\par
+\par
+\cf2 COMMIT\cf1  \cf2 TRANSACTION\cf3 ;\cf1\par
+\par
+\cf0\b\par
+2. Write a transaction to insert a new record into the Sales.SpecialOffer table and update the \par
+ModifiedDate in the Production.Product table, ensuring both operations are atomic.\cf1\b0\par
+\cf2 BEGIN\cf1  \cf2 TRANSACTION\cf3 ;\cf1\par
+\cf2 INSERT\cf1  \cf2 INTO\cf1  Sales\cf3 .\cf1 SpecialOffer\cf2  \cf3 (\cf2 Description\cf3 ,\cf1  DiscountPct\cf3 ,\cf2 Type\cf3 ,\cf1 Category\cf3 ,\cf1  \par
+StartDate\cf3 ,\cf1  EndDate\cf3 ,\cf1 MinQty\cf3 ,\cf1 MaxQty\cf3 ,\cf1 rowguid\cf3 ,\cf1 ModifiedDate\cf3 )\cf1\par
+\cf2 VALUES \cf3 (\cf1  \cf6 'New Offer'\cf3 ,\cf1  10\cf3 ,\cf1  \cf6 'Volume Discount'\cf3 ,\cf6 'Customer'\cf3 ,\cf5 GETDATE\cf3 (),\cf1  \cf5 DATEADD\cf3 (\cf5 DAY\cf3 ,\cf1  30\cf3 ,\cf1  \cf5 GETDATE\cf3 ()),\cf1 15\cf3 ,\cf1 24\cf3 ,\cf6 '1290C4F5-191F-4337-AB6B-0A2DDE03CBF9'\cf3 ,\cf1\tab\cf6 '2011-04-01 00:00:00.000'\cf3 );\cf1\par
+\cf5 UPDATE\cf1  Production\cf3 .\cf5 Product\cf1\par
+\cf2 SET\cf1  ModifiedDate \cf3 =\cf1  \cf5 GETDATE\cf3 ()\cf1\par
+\cf2 WHERE\cf1  ProductID \cf3 =\cf1  \cf6 '007'\cf3 ;\cf1\par
+\cf2 COMMIT\cf1  \cf2 TRANSACTION\cf3 ;\par
+\cf0\b 3. Explain what happens when two transactions try to update the same record simultaneously and how SQL Server handles it\par
+\f0\lang1033 Description:\par
+
+\pard\sa200\sl276\slmult1\qj\b0 When two transactions attempt to update the same record simultaneously in SQL Server, the database employs concurrency control mechanisms such as locking. One transaction typically acquires an exclusive lock on the record while it performs the update, preventing the other transaction from modifying the record concurrently. The second transaction waits until the first transaction completes and releases its lock. This ensures data integrity and consistency but can lead to blocking and potential deadlock situations if not managed properly with appropriate isolation levels and transaction handling strategies.\b\par
+\par
+\b0 SQL Server handles concurrent updates through locking mechanisms. When two transactions attempt to update the same record simultaneously, one transaction acquires an exclusive lock, preventing the other from modifying the record until the lock is released. SQL Server manages this through lock escalation, deadlock detection, and transaction isolation levels to maintain data consistency while minimizing contention and ensuring transactional integrity.\f1\lang9\par
+
+\pard\sa200\sl276\slmult1\cf1\par
+\f0\lang1033 -----------------------------------------------------------------------------\f1\lang9\par
+\par
+\cf0\b 9\f0\lang1033  \f1\lang9 Stored Procedures\par
+1. Create a stored procedure to insert a new product into the Production.Product table.\par
+\cf4\b0 --1\cf1\par
+\cf2 CREATE\cf1  \cf2 PROCEDURE\cf1  InsertProduct\par
+    @Name \cf2 NVARCHAR\cf3 (\cf1 255\cf3 ),\cf1\par
+    @ProductNumber \cf2 NVARCHAR\cf3 (\cf1 25\cf3 ),\cf1\par
+    @ListPrice \cf2 MONEY\cf3 ,\cf1\par
+    @StandardCost \cf2 MONEY\cf1\par
+\cf2 AS\cf1\par
+\cf2 BEGIN\cf1\par
+    \cf2 INSERT\cf1  \cf2 INTO\cf1  Production\cf3 .\cf5 Product\cf2  \cf3 (\cf2 Name\cf3 ,\cf1  ProductNumber\cf3 ,\cf1  ListPrice\cf3 ,\cf1  StandardCost\cf3 ,\cf1  ModifiedDate\cf3 )\cf1\par
+    \cf2 VALUES \cf3 (\cf1 @Name\cf3 ,\cf1  @ProductNumber\cf3 ,\cf1  @ListPrice\cf3 ,\cf1  @StandardCost\cf3 ,\cf1  \cf5 GETDATE\cf3 ());\cf1\par
+\cf2 END\cf3 ;\cf1\par
+\cf0\b\par
+2. Create a stored procedure to update the StandardCost of a product in the Production.Product \par
+table based on the ProductID and a new cost parameter.\par
+\cf1\b0\par
+\par
+\cf2 create\cf1    \cf2 procedure\cf1   UpdateProductStandardCost\par
+    @ProductID \cf2 INT\cf3 ,\cf1\par
+    @NewStandardCost \cf2 MONEY\cf1\par
+\cf2 AS\cf1\par
+\cf2 BEGIN\cf1\par
+    \cf5 update\cf1  Production\cf3 .\cf5 Product\cf1\par
+    \cf2 SET\cf1  StandardCost \cf3 =\cf1  @NewStandardCost\par
+    \cf2 WHERE\cf1  ProductID \cf3 =\cf1  @ProductID\cf3 ;\cf1\par
+\cf2 end\cf1\par
+\cf2 select\cf1  \cf3 *\cf1  \cf2 from\cf1  Production\cf3 .\cf5 Product\cf1\par
+\cf2 DECLARE\cf1  @ProductID \cf2 INT\cf1  \cf3 =\cf1  1\cf3 ;\cf1  \par
+\cf2 DECLARE\cf1  @NewStandardCost \cf2 MONEY\cf1  \cf3 =\cf1  99.99\par
+ \cf2 EXEC\cf1  UpdateProductStandardCost\cf2  \cf1\par
+\cf2     \cf1 @ProductID \cf3 =\cf1  @ProductID\cf3 ,\cf1\par
+    @NewStandardCost \cf3 =\cf1  @NewStandardCost\cf3 ;\cf1\par
+\f0\lang1033 ---------------------------------------------------------------------------------\f1\lang9\par
+\cf0\b\par
+10\f0\lang1033  \f1\lang9 Writing Triggers\par
+1. Write a trigger that updates the ModifiedDate column in the Production.Product table whenever a record is updated.\par
+\cf1\b0\par
+\par
+\cf2 create\cf1  \cf2 trigger\cf1  ModifyTrigger\par
+\cf2 on\cf1   Production\cf3 .\cf5 Product\cf1\par
+\cf2 after\cf1  \cf5 update\cf1\par
+\cf2 as\cf1\par
+\cf2 begin\cf1\par
+\cf5 update\cf1  Production\cf3 .\cf5 Product\cf1  \cf2 set\cf1  ModifiedDate\cf3 =\cf5 getdate\cf3 ()\cf1\par
+\cf2 end\par
+\par
+\cf0\b 2. Write a trigger to log changes to the ListPrice in the Production.Product table into a new table called ProductPriceHistory.\par
+\cf2\b0 create\cf1  \cf2 table\cf1  #temp00\cf3 (\cf1\par
+\tab productID \cf2 int\cf3 ,\cf1\par
+\tab listPrice \cf2 money\cf3 )\cf1\par
+\cf2 create\cf1  \cf2 trigger\cf1  LogChange\par
+\cf2 on\cf1  Production\cf3 .\cf5 Product\cf1\par
+\cf2 after\cf1  \cf5 update\cf1\par
+\cf2 as\cf1\par
+\cf2 begin\cf1\par
+\tab\cf2 insert\cf1  \cf2 into\cf1  #temp00\cf3 (\cf1 productID\cf3 ,\cf1 listPrice\cf3 )\cf1\par
+\tab\cf2 select\cf1  d\cf3 .\cf1 ProductID\cf3 ,\cf1 d\cf3 .\cf1 ListPrice \cf2 from\cf1  deleted d\par
+\cf2 end\par
+\cf0\f0\lang1033 ---------------------------------------------------------------------------------\cf2\f1\lang9\par
+\cf0\b\f0\lang1033 11 \f1\lang9 Slowly Changing Dimensions (SCD) and Change Data Capture (CDC)\par
+1. Describe a scenario in the Adventure Works database where a Slowly Changing Dimension (SCD) Type 2 would be appropriate.\par
+\f0\lang1033 --------------------------------------------------------------------------------\f1\lang9\par
+\f0\lang1033 12 \f1\lang9 ETL (Extract, Transform, Load)\par
+1. Outline the steps to extract data from the Sales.SalesOrderHeader table, transform it to aggregate sales by year, and load it into a new table called YearlySales.\par
+\par
+\cf2\b0 create\cf1  \cf2 table\cf1  #YearlySales\cf3 (\cf1 SalesOrderID \cf2 int\cf3 ,\cf1 OrderDate \cf2 datetime\cf3 )\cf1\par
+\cf2 insert\cf1  \cf2 into\cf1  #YearlySales\cf3 (\cf1 SalesOrderID\cf3 ,\cf1 OrderDate\cf3 )\cf1\par
+\cf2 select\cf1  SalesOrderID\cf3 ,\cf5 year\cf3 (\cf1 OrderDate\cf3 )\cf1  \cf2 from\cf1  Sales\cf3 .\cf1 SalesOrderHeader \cf2 group\cf1  \cf2 by\cf1  SalesOrderID\cf3 ,\cf5 year\cf3 (\cf1 OrderDate\cf3 )\cf1\par
+\cf2 select\cf1  \cf3 *\cf1  \cf2 from\cf1  #YearlySales\cf0\b\par
+\par
+2. Describe the ETL process and its importance in data warehousing, using examples from the Adventure Works database.\par
+\b0 ETL (Extract, Transform, Load) is the process of extracting data from various sources, transforming it to fit operational needs or a data warehouse schema, and loading it into the target database. In Adventure Works, ETL might involve extracting sales data from transactional databases, transforming it by aggregating sales by product and region, and loading it into a centralized data warehouse. This process ensures data consistency, improves query performance, and enables comprehensive analytics and reporting across the organization.\b\par
+\par
+3. Write a SQL script to extract data from the Sales.Customer table, transform it to calculate the TotalSpend for each customer, and load it into a new table called CustomerSpend.\par
+\cf2\b0 create\cf1  \cf2 table\cf1  CustomerSpend1\cf2  \cf3 (\cf1\par
+    CustomerID \cf2 int\cf1  \cf2 primary\cf1  \cf2 key\cf3 ,\cf1\par
+   \par
+    TotalSpend \cf2 money\cf1\par
+\cf3 );\cf1\par
+\par
+\cf2 insert\cf1  \cf2 into\cf1  CustomerSpend1\cf2  \cf3 (\cf1 CustomerID\cf3 ,\cf1  TotalSpend\cf3 )\cf1\par
+\cf2 select\cf1  \par
+    c\cf3 .\cf1 CustomerID\cf3 ,\cf1\par
+    \cf5 sum\cf3 (\cf1 soh\cf3 .\cf1 TotalDue\cf3 )\cf1  \cf2 as\cf1  TotalSpend\par
+\cf2 from\cf1  \par
+    Sales\cf3 .\cf1 Customer c\par
+\cf3 inner\cf1  \cf3 join\cf1  \par
+    Sales\cf3 .\cf1 SalesOrderHeader soh \cf2 on\cf1  c\cf3 .\cf1 CustomerID \cf3 =\cf1  soh\cf3 .\cf1 CustomerID\par
+\cf2 group\cf1  \cf2 by\cf1  \par
+    c\cf3 .\cf1 CustomerID\par
+\tab\cf2 select\cf1  \cf3 *\cf1  \cf2 from\cf1  CustomerSpend1\cf0\b\par
+4. Write a query to extract data from the Production.Product table, transform it by adding a 10% \par
+markup to the ListPrice, and insert it into a new table called ProductWithMarkup\par
+\cf4\b0 -- Create ProductWithMarkup table if it doesn't exist\cf1\par
+\cf2 CREATE\cf1  \cf2 TABLE\cf1  ProductWithMarkup\cf2  \cf3 (\cf1\par
+        ProductID \cf2 INT\cf1  \cf2 PRIMARY\cf1  \cf2 KEY\cf3 ,\cf1\par
+        \cf2 Name\cf1  \cf2 NVARCHAR\cf3 (\cf1 255\cf3 ),\cf1\par
+        ListPrice \cf2 MONEY\cf3 ,\cf1\par
+        ListPriceWithMarkup \cf2 MONEY\cf1   \cf4 -- New column to store ListPrice with 10% markup\cf1\par
+    \cf3 );\cf1\par
+\cf2 INSERT\cf1  \cf2 INTO\cf1  ProductWithMarkup\cf2  \cf3 (\cf1 ProductID\cf3 ,\cf1  \cf2 Name\cf3 ,\cf1  ListPrice\cf3 ,\cf1  ListPriceWithMarkup\cf3 )\cf1\par
+\cf2 SELECT\cf1  \par
+    ProductID\cf3 ,\cf1\par
+    \cf2 Name\cf3 ,\cf1\par
+    ListPrice\cf3 ,\cf1\par
+    ListPrice \cf3 *\cf1  1.1 \cf2 AS\cf1  ListPriceWithMarkup  \cf4 -- Calculate ListPrice with 10% markup\cf1\par
+\cf2 FROM\cf1  \par
+   Production\cf3 .\cf5 Product\cf3 ;\cf1\par
+   \cf2 select\cf1  \cf3 *\cf1  \cf2 from\cf1  ProductWithMarkup\cf0\b\par
+\cf1\b0\par
+\par
+\f0\lang1033 13 \f1\lang9 Reporting and Data Visualization\par
+1. Write a query to generate a report showing the total sales amount by TerritoryID from the \par
+Sales.SalesOrderHeader table.\par
+2. Create a simple report that lists the top 5 products by sales amount using data from the \par
+Sales.SalesOrderDetail table.\par
+3. Describe how to connect Power BI to the Adventure Works database and load data from the \par
+Sales.SalesOrderHeader and Sales.SalesOrderDetail tables.\par
+4. Create a Power BI report that visualizes the total sales by TerritoryID and includes a slicer for \par
+filtering by OrderDate\par
+\par
+\cf0\f2\fs22\par
+}
+ 
